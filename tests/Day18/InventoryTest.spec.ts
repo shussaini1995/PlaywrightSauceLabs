@@ -6,6 +6,8 @@ import { CheckOutPage } from '../../main/pages/CheckoutPage';
 import { CheckoutSummaryPage} from '../../main/pages/CheckoutSummaryPage';
 import { OrderConfirmationPage} from '../../main/pages/OrderConfirmationPage';
 import testdata from '../resources/testdata.json';
+import * as allure from 'allure-js-commons';
+import '../hooks/hooks';
 
 let loginPageObj : LoginPage;
 let inventoryPageObj : InventoryPage;
@@ -21,36 +23,46 @@ test.beforeEach("object creation", async({page}) => {
     checkoutPageObj = new CheckOutPage(page);
     checkoutSummaryPageObj = new CheckoutSummaryPage(page);
     orderConfirmationPageObj = new OrderConfirmationPage(page);
+    await allure.owner("Syed Hussaini");
+    await allure.severity("critical");
+    await allure.feature("E2E Flow");
+    await allure.story("Verify product added to Cart and checkout");
 })
 
 test("Verify product added to Cart and checkout", async({page}) => {
 
     //Url is being read from playwright config file
-    await loginPageObj.openUrl('/');
-    await loginPageObj.login(testdata.username, testdata.password);
+    await allure.step("Login to the application", async() => {
+        await loginPageObj.openUrl('/');
+        await loginPageObj.login(testdata.username, testdata.password);
+    });
 
-    //Add product to cart
-    await inventoryPageObj.addSpecificProductToCart(testdata.productName);
-    await inventoryPageObj.verifySpecificProductHasRemoveButtonVisible(testdata.productName);
-    await inventoryPageObj.viewShoppingCart();
+    allure.step("Add product to cart and checkout", async() => {
+        await inventoryPageObj.addSpecificProductToCart(testdata.productName);
+        await inventoryPageObj.verifySpecificProductHasRemoveButtonVisible(testdata.productName);
+        await inventoryPageObj.viewShoppingCart();
+    });
+    
+    await allure.step("Verify product in cart and checkout", async() => {
+        await cartPageObj.verifyAddedProductInCartPage(testdata.productName);
+        await cartPageObj.checkout();
+    });
 
-    //Verify aded product and checkout
-    await cartPageObj.verifyAddedProductInCartPage(testdata.productName);
-    await cartPageObj.checkout();
-
-    //Enter details and click continue
-    await checkoutPageObj.fillCheckoutDetails('Syed', 'Hussaini', '123456');
-    await checkoutPageObj.continue();
-
-    //Verify the product/delivery details and place order
-    await checkoutSummaryPageObj.verifyAddedProductInCheckoutPage(testdata.productName);
-    console.log('Payment Information: ' + await checkoutSummaryPageObj.fetchDeliveryDetails('Payment Information:'));
-    console.log('Shipping Information: ' + await checkoutSummaryPageObj.fetchDeliveryDetails('Shipping Information:'));
-    console.log('Payment Details:\n');
-    console.log(await checkoutSummaryPageObj.fetchSubTotal());
-    console.log(await checkoutSummaryPageObj.fetchTax());
-    console.log(await checkoutSummaryPageObj.fetchTotal());
-    await checkoutSummaryPageObj.finish();
-    await orderConfirmationPageObj.validateOrderPlacedSuccessfully(testdata.SuccessMsg);
+    await allure.step("Fill checkout details and place order", async() => {
+        await checkoutPageObj.fillCheckoutDetails('Syed', 'Hussaini', '123456');
+        await checkoutPageObj.continue();
+    });
+    
+    await allure.step("Verify product in checkout summary and place order", async() => {
+        await checkoutSummaryPageObj.verifyAddedProductInCheckoutPage(testdata.productName);
+        console.log('Payment Information: ' + await checkoutSummaryPageObj.fetchDeliveryDetails('Payment Information:'));
+        console.log('Shipping Information: ' + await checkoutSummaryPageObj.fetchDeliveryDetails('Shipping Information:'));
+        console.log('Payment Details:\n');
+        console.log(await checkoutSummaryPageObj.fetchSubTotal());
+        console.log(await checkoutSummaryPageObj.fetchTax());
+        console.log(await checkoutSummaryPageObj.fetchTotal());
+        await checkoutSummaryPageObj.finish();
+        await orderConfirmationPageObj.validateOrderPlacedSuccessfully(testdata.SuccessMsg);
+    });
 
 })
