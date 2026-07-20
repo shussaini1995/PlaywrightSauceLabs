@@ -1,9 +1,12 @@
-import * as allure from "allure-js-commons";
-import { Page } from "@playwright/test";
+import { Page, TestInfo } from "@playwright/test";
 
 export class AllureUtils {
-    static async attachScreenshot(page : Page, name: string) : Promise<void> {
+    static async attachScreenshot(page : Page, testInfo : TestInfo, name: string) : Promise<void> {
         const screenshot = await page.screenshot();
-        await allure.attachment(name, screenshot, 'image/png');
+        await testInfo.attach(name, 
+            { 
+                body : screenshot,
+                contentType: 'image/png'
+            });
     }
 }
