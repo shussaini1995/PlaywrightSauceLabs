@@ -5,6 +5,6 @@ test.afterEach(async ({ page }, testInfo) => {
     console.log("executing aftereach method")
     if (testInfo.status !== testInfo.expectedStatus) {
         console.log("attaching screenshot");
-        await AllureUtils.attachScreenshot(page, testInfo, `Failure-${testInfo.title}`);
+        await AllureUtils.attachScreenshot(page, `Failure-${testInfo.title}`);
     }
 });
