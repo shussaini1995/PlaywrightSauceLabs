@@ -47,7 +47,7 @@ test("webtable test", async({page}) => {
 })
 
 
-test.only('filtering products test', async({page}) => {
+test('filtering products test', async({page}) => {
 
     await page.goto("https://www.saucedemo.com/");
     await page.locator('#user-name').fill('standard_user');
