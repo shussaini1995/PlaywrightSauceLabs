@@ -23,7 +23,7 @@ test.beforeEach("object creation", async({page}) => {
     orderConfirmationPageObj = new OrderConfirmationPage(page);
 })
 
-test.only("Verify product added to Cart and checkout", async({page}) => {
+test("Verify product added to Cart and checkout", async({page}) => {
 
     //Url is being read from playwright config file
     await loginPageObj.openUrl('/');
