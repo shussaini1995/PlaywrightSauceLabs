@@ -9,6 +9,6 @@ export class OrderConfirmationPage{
     }
 
     async validateOrderPlacedSuccessfully(successMsg : string){
-        await expect(this.page.locator('.complete-heade')).toHaveText(successMsg);
+        await expect(this.page.locator('.complete-header')).toHaveText(successMsg);
     }
 }
