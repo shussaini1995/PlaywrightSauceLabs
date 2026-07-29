@@ -7,7 +7,7 @@ import { CheckoutSummaryPage} from '../../main/pages/CheckoutSummaryPage';
 import { OrderConfirmationPage} from '../../main/pages/OrderConfirmationPage';
 import testdata from '../resources/testdata.json';
 import * as allure from 'allure-js-commons';
-import '../hooks/hooks';
+// import '../hooks/hooks';
 
 let loginPageObj : LoginPage;
 let inventoryPageObj : InventoryPage;
