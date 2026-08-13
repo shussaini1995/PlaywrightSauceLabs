@@ -1,2 +1,2 @@
 # PlaywrightSauceLabs
-This is a playwright project that covers the functionalities of sauce labs websites
+This is a playwright project that covers the functionalities of sauce labs websitess
