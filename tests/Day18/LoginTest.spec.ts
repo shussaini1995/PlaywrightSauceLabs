@@ -1,13 +1,7 @@
-import {test, expect} from '@playwright/test';
+import {test} from '../../main/fixtures/pageFixtures';
 import {LoginPage} from '../../main/pages/LoginPage';
 
-let loginPageObj :LoginPage;
-
-test.beforeEach("object creation", async({page}) => {
-    loginPageObj = new LoginPage(page);
-})
-
-test('login Test', async({page}) => {
+test('login Test', async({loginPageObj}) => {
 
     //Url is being read from playwright config file
     await loginPageObj.openUrl("/");

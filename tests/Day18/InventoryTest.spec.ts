@@ -1,35 +1,22 @@
-import { test, expect } from '@playwright/test';
-import { InventoryPage } from '../../main/pages/InventoryPage';
-import { LoginPage } from '../../main/pages/LoginPage';
-import { CartPage } from '../../main/pages/CartPage';
-import { CheckOutPage } from '../../main/pages/CheckoutPage';
-import { CheckoutSummaryPage} from '../../main/pages/CheckoutSummaryPage';
-import { OrderConfirmationPage} from '../../main/pages/OrderConfirmationPage';
+import { test, expect } from '../../main/fixtures/pageFixtures';
 import testdata from '../resources/testdata.json';
 import * as allure from 'allure-js-commons';
 // import '../hooks/hooks';
 
-let loginPageObj : LoginPage;
-let inventoryPageObj : InventoryPage;
-let cartPageObj : CartPage;
-let checkoutPageObj : CheckOutPage;
-let checkoutSummaryPageObj : CheckoutSummaryPage;
-let orderConfirmationPageObj : OrderConfirmationPage
-
 test.beforeEach("object creation", async({page}) => {
-    loginPageObj = new LoginPage(page);
-    inventoryPageObj = new InventoryPage(page);
-    cartPageObj = new CartPage(page);
-    checkoutPageObj = new CheckOutPage(page);
-    checkoutSummaryPageObj = new CheckoutSummaryPage(page);
-    orderConfirmationPageObj = new OrderConfirmationPage(page);
     await allure.owner("Syed Hussaini");
     await allure.severity("critical");
     await allure.feature("E2E Flow");
     await allure.story("Verify product added to Cart and checkout");
 })
 
-test("Verify product added to Cart and checkout", async({page}) => {
+test("Verify product added to Cart and checkout", async({
+    loginPageObj,
+    inventoryPageObj,
+    cartPageObj,
+    checkoutPageObj,
+    checkoutSummaryPageObj,
+    orderConfirmationPageObj}) => {
 
     //Url is being read from playwright config file
     await allure.step("Login to the application", async() => {
